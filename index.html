@@ -1278,7 +1278,6 @@
       font-weight: 400;
     }
   </style>
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -1741,10 +1740,6 @@
     }
   })();
 
-  // ── Kakao SDK 초기화 ──
-  if (window.Kakao && !window.Kakao.isInitialized()) {
-    window.Kakao.init('9015e048bcac9e5ce7c4b0952d41a87b');
-  }
   // ── 공유하기 (Web Share API → 클립보드 복사 fallback) ──
   (function() {
     var btn = document.getElementById('kakaoShareBtn');
