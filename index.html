@@ -1642,9 +1642,11 @@
   <div class="kakao-share-wrap reveal">
     <button class="kakao-share-btn" id="kakaoShareBtn">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.7 1.567 5.085 3.938 6.548L5 21l4.41-2.348C10.23 18.876 11.1 19 12 19c5.523 0 10-3.477 10-7.8C22 6.477 17.523 3 12 3z" fill="#191919"/>
+        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke="#191919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="16 6 12 2 8 6" stroke="#191919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="12" y1="2" x2="12" y2="15" stroke="#191919" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      카카오톡으로 청첩장 공유하기
+      청첩장 공유하기
     </button>
   </div>
   <!-- ── FOOTER ── -->
@@ -1743,36 +1745,25 @@
   if (window.Kakao && !window.Kakao.isInitialized()) {
     window.Kakao.init('9015e048bcac9e5ce7c4b0952d41a87b');
   }
-  // ── 카카오톡 공유 ──
+  // ── 공유하기 (Web Share API → 클립보드 복사 fallback) ──
   (function() {
     var btn = document.getElementById('kakaoShareBtn');
     if (!btn) return;
     btn.addEventListener('click', function() {
-      if (window.Kakao && window.Kakao.isInitialized()) {
-        window.Kakao.Share.sendDefault({
-          objectType: 'feed',
-          content: {
-            title: '오승학 ♥ 이수현 결혼합니다',
-            description: '2026년 8월 22일 토요일 오후 1시 30분 · 약현성당',
-            imageUrl: 'https://oscafka.github.io/Invitation/thumbnail.jpg?v=2',
-            imageWidth: 800,
-            imageHeight: 1200,
-            link: {
-              mobileWebUrl: 'https://oscafka.github.io/Invitation/',
-              webUrl: 'https://oscafka.github.io/Invitation/'
-            }
-          }
+      var url = 'https://oscafka.github.io/Invitation/';
+      var shareData = {
+        title: '오승학 ♥ 이수현 결혼합니다',
+        text: '2026년 8월 22일 토요일 오후 1시 30분 · 약현성당',
+        url: url
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(function() {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+          alert('청첩장 링크가 복사되었습니다!\n카카오톡에 붙여넣기 해주세요.');
         });
       } else {
-        // Kakao SDK 없을 때 URL 복사 fallback
-        var url = 'https://oscafka.github.io/Invitation/';
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(url).then(function() {
-            alert('청첩장 링크가 복사되었습니다!\n카카오톡에 붙여넣기 해주세요.');
-          });
-        } else {
-          prompt('아래 링크를 복사해 카카오톡에 공유해주세요:', url);
-        }
+        prompt('아래 링크를 복사해 카카오톡에 공유해주세요:', url);
       }
     });
   })();
