@@ -1755,18 +1755,29 @@
             title: '오승학 ♥ 이수현 결혼합니다',
             description: '2026년 8월 22일 토요일 오후 1시 30분 · 약현성당',
             imageUrl: 'https://oscafka.github.io/Invitation/thumbnail.jpg',
+            imageWidth: 800,
+            imageHeight: 1200,
             link: {
               mobileWebUrl: 'https://oscafka.github.io/Invitation/',
               webUrl: 'https://oscafka.github.io/Invitation/'
             }
           },
-          buttons: [{
-            title: '청첩장 보기',
-            link: {
-              mobileWebUrl: 'https://oscafka.github.io/Invitation/',
-              webUrl: 'https://oscafka.github.io/Invitation/'
+          buttons: [
+            {
+              title: '모바일 청첩장 보기',
+              link: {
+                mobileWebUrl: 'https://oscafka.github.io/Invitation/',
+                webUrl: 'https://oscafka.github.io/Invitation/'
+              }
+            },
+            {
+              title: '예식장 위치 (네이버지도)',
+              link: {
+                mobileWebUrl: 'https://naver.me/xYzLN7bE',
+                webUrl: 'https://naver.me/xYzLN7bE'
+              }
             }
-          }]
+          ]
         });
       } else {
         // Kakao SDK 없을 때 URL 복사 fallback
