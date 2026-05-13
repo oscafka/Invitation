@@ -1037,6 +1037,9 @@
       overflow: hidden;
       position: relative;
     }
+    .album-grid-item {
+      cursor: pointer;
+    }
     .album-grid-item img {
       width: 100%;
       height: 100%;
@@ -1126,6 +1129,65 @@
     .kakao-share-btn:active { opacity: 0.85; }
     .kakao-share-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
   
+    /* ─── 라이트박스 ─── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.95);
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      pointer-events: none;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .lightbox-prev, .lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+
     /* ─── 축복미 안내 ─── */
     .blessing-rice-notice {
       margin-top: 32px;
@@ -1641,6 +1703,14 @@
     </div>
   </section>
 
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-prev" id="lightboxPrev">‹</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <button class="lightbox-next" id="lightboxNext">›</button>
+  </div>
+
   <!-- ── KAKAO SHARE ── -->
   <div class="kakao-share-wrap reveal">
     <button class="kakao-share-btn" id="kakaoShareBtn">
@@ -1756,6 +1826,46 @@
           </a>
         </div>`;
     }
+  })();
+
+  // ── 갤러리 라이트박스 ──
+  (function() {
+    const items = document.querySelectorAll('.album-grid-item');
+    const overlay = document.getElementById('lightboxOverlay');
+    const img = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const prevBtn = document.getElementById('lightboxPrev');
+    const nextBtn = document.getElementById('lightboxNext');
+    let current = 0;
+    const srcs = Array.from(items).map(item => item.querySelector('img').src);
+
+    function open(idx) {
+      current = idx;
+      img.src = srcs[current];
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      img.src = '';
+    }
+    function prev() { current = (current - 1 + srcs.length) % srcs.length; img.src = srcs[current]; }
+    function next() { current = (current + 1) % srcs.length; img.src = srcs[current]; }
+
+    items.forEach((item, idx) => item.addEventListener('click', () => open(idx)));
+    closeBtn.addEventListener('click', close);
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+
+    // 스와이프 지원
+    let startX = 0;
+    overlay.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    overlay.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+    }, { passive: true });
   })();
 
   // ── 공유하기 (Web Share API → 클립보드 복사 fallback) ──
