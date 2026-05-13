@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>오승학 ♥ 이수현 결혼합니다</title>
   <!-- Open Graph / KakaoTalk preview -->
   <meta property="og:type" content="website" />
@@ -1040,6 +1040,10 @@
     .album-grid-item img {
       width: 100%;
       height: 100%;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      pointer-events: none;
       object-fit: cover;
       display: block;
     }
@@ -1377,16 +1381,15 @@
     <span class="section-tag reveal">Gallery</span>
 
     <div class="album-grid reveal reveal-delay-3">
-      <!-- 사진 추가 예정: <div class="album-grid-item"><img src="images/01.jpg"></div> -->
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
-      <div class="album-grid-item placeholder"></div>
+      <div class="album-grid-item"><img src="images/01.jpg" alt="웨딩 사진 1" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/02.jpg" alt="웨딩 사진 2" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/03.jpg" alt="웨딩 사진 3" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/04.jpg" alt="웨딩 사진 4" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/05.jpg" alt="웨딩 사진 5" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/06.jpg" alt="웨딩 사진 6" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/07.jpg" alt="웨딩 사진 7" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/08.jpg" alt="웨딩 사진 8" loading="lazy"></div>
+      <div class="album-grid-item"><img src="images/09.jpg" alt="웨딩 사진 9" loading="lazy"></div>
     </div>
   </section>
 
@@ -1738,6 +1741,20 @@
             결혼식 당일부터 공유해 주실 수 있습니다.
           </div>
           <div class="photo-lock-countdown">D-${days}일 ${hours}시간 후 오픈</div>
+        </div>`;
+    } else {
+      wrapper.innerHTML = `
+        <div class="photo-lock-overlay">
+          <div class="photo-lock-icon">📸</div>
+          <div class="photo-lock-title">사진을 공유해 주세요</div>
+          <div class="photo-lock-desc">
+            결혼식에서 찍으신 소중한 사진을<br/>
+            아래 버튼을 눌러 공유해 주세요.
+          </div>
+          <a href="https://photos.app.goo.gl/mMBzSDyfVzqpbpZK8" target="_blank"
+            style="display:inline-block;margin-top:20px;padding:12px 28px;background:var(--rose);color:#fff;border-radius:50px;font-size:14px;text-decoration:none;letter-spacing:0.05em;">
+            📷 구글 포토에 사진 올리기
+          </a>
         </div>`;
     }
   })();
